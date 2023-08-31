@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- scripts -->
     <script>
@@ -22,7 +24,9 @@
                 clifford: '#da373d',
                 'color-primary': '#171717',
                 'color-btn' : 'rgba(37,37,37,0.70)',
+                'color-btn-bg' : 'rgba(37,37,37,0.20)',
                 'color-name': 'rgba(23,23,23,0.70)',
+                'color-primary-accent': '#FF1F3D'
               }
             }
           }
@@ -37,7 +41,33 @@
 </head>
 
 <body>
+  <header class="w-11/12 mx-auto">
+    <!-- navbar -->
+    <div class=" flex justify-between items-center pt-10 pb-5 border-b-2">
+      <div class="">
+        <h3 class="text-xl md:text-2xl lg:text-3xl text-color-primary-accent font-bold"><i class="fa-solid fa-circle-play"></i> PH <span class="text-[#252525]">Tube</span>
+        </h3>
+      </div>
+      <div>
+        <button class="text-sm md:text-base lg:text-xl font-medium bg-color-btn-bg px-5 py-3 rounded-lg">Sort by view</button>
+      </div>
+      <div>
+        <button id="btn-blog" class="text-sm md:text-base lg:text-xl text-white font-medium bg-color-primary-accent px-5 py-3 rounded-lg">Blog</button>
+      </div>
+    </div>
+  </header>
+  <main>
 
+  </main>
+  <footer>
+
+  </footer>
+   <!--scripts  -->
+   <script>
+    document.getElementById('btn-blog').addEventListener('click', function(){
+      window.location.href='blog.html';
+    })
+   </script>
 </body>
 
 </html>
