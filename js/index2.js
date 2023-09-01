@@ -56,7 +56,7 @@ const handleLoadVideos = async (category_id) => {
               <div class="flex flex-col">
               <div class="relative ">
                 <img class="w-full h-32 lg:h-48 mb-5 rounded-lg" src="${video.thumbnail}" alt="">
-                <p class="absolute bottom-8 right-3 bg-color-btn text-xs text-white px-2 py-1 rounded-md">${hours}hrs ${minutes}mins ago</p>
+                <p id="postedDate-${count}" class="hidden absolute bottom-8 right-3 bg-color-btn text-xs text-white px-2 py-1 rounded-md">${hours}hrs ${minutes}mins ago</p>
               </div>
               <div class="flex gap-3">
                 <!-- profile thumbnail -->
@@ -80,6 +80,10 @@ const handleLoadVideos = async (category_id) => {
             const verified = document.getElementById(`verified-${count}`);
             if (video.authors[0].verified) {
                 verified.classList.remove('hidden');
+            }
+            const postedDate = document.getElementById(`postedDate-${count}`);
+            if (video.others.posted_date != '') {
+                postedDate.classList.remove('hidden');
             }
             // console.log(`verified-${count}`);
             count++;
