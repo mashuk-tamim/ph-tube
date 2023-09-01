@@ -22,6 +22,8 @@ const handleLoadVideos = async (category_id) => {
     console.log(data.data);
 
     let originalVideos = data.data; // Store the original videos
+    let sortedVideos = originalVideos;
+
 
     let count = 0;
     const videoContainer = document.getElementById('videos-container');
@@ -36,8 +38,8 @@ const handleLoadVideos = async (category_id) => {
       </div>
       `;
     }
-    let viewsArray = [];
-    const showVideos = (videosObject=originalVideos) => {
+    // let viewsArray = [];
+    const showVideos = (videosObject = originalVideos) => {
         videosObject?.forEach((video) => {
             console.log(video.others.views);
             // console.log(viewsArray);
@@ -47,9 +49,7 @@ const handleLoadVideos = async (category_id) => {
             let minutes = seconds % 3600;
             minutes = parseInt(minutes / 60);
             // console.log(minutes);
-            const showVideos = () => {
-    
-            }
+
             videoContainer.classList.add('lg:grid-cols-4', 'grid-cols-2', 'md:grid-cols-3');
             const div = document.createElement('div');
             div.innerHTML = `
@@ -76,28 +76,22 @@ const handleLoadVideos = async (category_id) => {
             </div>
               `
             videoContainer.appendChild(div);
-    
+
             const verified = document.getElementById(`verified-${count}`);
             if (video.authors[0].verified) {
                 verified.classList.remove('hidden');
             }
             // console.log(`verified-${count}`);
-            viewsArray[count] = parseFloat(video.others.views);
             count++;
         })
     }
     showVideos();
     document.getElementById('sort-by-view').addEventListener('click', function () {
         console.log('Clicked');
-        viewsArray.sort((a, b) => b - a); // Sort the viewsArray in descending order
-      
-        // Re-render the videos based on the sorted views
-        const sortedVideos = viewsArray.map(views => {
-          return originalVideos.find(video => parseFloat(video.others.views) === views);
-        });
-        // console.log(sortedVideos);
-        // console.log(originalVideos);
-      
+        // console.log(parseFloat(sortedVideos[1].others.views));
+        sortedVideos.sort((a, b) => parseFloat(b.others.views) - parseFloat(a.others.views));
+        console.log('sorted views:', sortedVideos);
+
         // Clear the video container and render the sorted videos
         videoContainer.innerHTML = '';
         showVideos(sortedVideos);
