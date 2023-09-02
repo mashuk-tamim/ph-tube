@@ -1,3 +1,4 @@
+// function for category buttons
 const handleCategory = async () => {
   const response = await fetch('https://openapi.programming-hero.com/api/videos/categories');
   const data = await response.json();
@@ -5,7 +6,6 @@ const handleCategory = async () => {
   const categoryContainer = document.getElementById('category-container');
 
   data.data.forEach(category => {
-    console.log(category.category);
     const div = document.createElement('div');
     div.innerHTML = `
           <button onclick="handleLoadVideos('${category.category_id}')" class="text-sm md:text-base lg:text-xl font-medium bg-color-btn-bg hover:bg-color-primary-accent hover:text-white rounded-lg px-6 py-2 mx-1 md:mx-2 lg:mx-3">${category.category}</button>
@@ -14,23 +14,23 @@ const handleCategory = async () => {
   });
 }
 
+//function for holding videos from API
 const handleLoadVideos = async (category_id) => {
-  console.log(category_id);
   const response = await fetch(`https://openapi.programming-hero.com/api/videos/category/${category_id}`);
   const data = await response.json();
-  console.log(data.data);
 
   let originalVideos = data.data; // Store the original videos
-  let sortedVideos = originalVideos;
+  let sortedVideos = originalVideos; // original videos is copied to sorted videos
 
   const videoContainer = document.getElementById('videos-container');
   videoContainer.innerHTML = '';
   let count = 0;
+
+  // function to show warning message if no video is available
   const handleNoContent = () => {
     const videoContainer = document.getElementById('videos-container');
     videoContainer.innerHTML = '';
     if (data.data?.length === 0) {
-      console.log('zero');
       videoContainer.classList.remove('lg:grid-cols-4', 'grid-cols-2', 'md:grid-cols-3');
       videoContainer.innerHTML = `
         <div class="flex flex-col items-center w-3/4 md:w-4/6 lg:w-5/12 mx-auto mt-10">
@@ -41,21 +41,17 @@ const handleLoadVideos = async (category_id) => {
     }
   }
   handleNoContent();
-  // let viewsArray = [];
+  // function to show videos dynamically
   const showVideos = (videosObject = originalVideos) => {
     if (videosObject.length === 0) {
-      console.log('none');
+      handleNoContent(); // if there is video, shows warning message
     }
     else {
       videosObject?.forEach((video) => {
-        console.log(video.others.views);
-        // console.log(viewsArray);
         let seconds = video.others.posted_date;
-        hours = parseInt(seconds / 3600);
-        // console.log(hours);
+        hours = parseInt(seconds / 3600); //seconds to hours
         let minutes = seconds % 3600;
-        minutes = parseInt(minutes / 60);
-        // console.log(minutes);
+        minutes = parseInt(minutes / 60); // converted to minutes
 
         videoContainer.classList.add('lg:grid-cols-4', 'grid-cols-2', 'md:grid-cols-3');
         const div = document.createElement('div');
@@ -86,27 +82,21 @@ const handleLoadVideos = async (category_id) => {
 
         const verified = document.getElementById(`verified-${count}`);
         if (video.authors[0].verified) {
-          verified.classList.remove('hidden');
+          verified.classList.remove('hidden'); // shows blue tick if available
         }
         const postedDate = document.getElementById(`postedDate-${count}`);
         if (video.others.posted_date != '') {
-          postedDate.classList.remove('hidden');
+          postedDate.classList.remove('hidden'); // shows posted date if available
         }
-        // console.log(`verified-${count}`);
         count++;
       })
     }
   }
   showVideos();
+  // sort by view button
   document.getElementById('sort-by-view').addEventListener('click', function () {
-    console.log('Clicked');
-    // console.log(parseFloat(sortedVideos[1].others.views));
     sortedVideos.sort((a, b) => parseFloat(b.others.views) - parseFloat(a.others.views));
-    // console.log('sorted views:', sortedVideos);
-
-    // Clear the video container and render the sorted videos
     videoContainer.innerHTML = '';
-    handleNoContent();
     showVideos(sortedVideos);
   });
 }
